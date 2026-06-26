@@ -370,7 +370,7 @@ body.nearBottom .star{opacity:var(--starOpacity,.86)}
 <body>
 <div class="homeLoader" id="homeLoader"><span>Loading the sea...</span></div>
 <script>
-(()=>{const loader=document.getElementById('homeLoader');if(!loader)return;let hidden=false;const hide=()=>{if(hidden)return;hidden=true;loader.classList.add('isHidden');setTimeout(()=>loader.remove(),900)};window.addEventListener('load',hide,{once:true});setTimeout(hide,4200)})();
+(()=>{const loader=document.getElementById('homeLoader');if(!loader)return;let hidden=false;const hide=()=>{if(hidden)return;hidden=true;loader.classList.add('isHidden');setTimeout(()=>loader.remove(),900)};window.addEventListener('load',hide,{once:true});setTimeout(hide,1600)})();
 </script>
 <div class="scene">
   <div class="world">
@@ -446,6 +446,7 @@ if(window.initStoneCounter){
 
 let frameIndex=0,lastFrameTime=0,frameDelay=75;
 let direction='rtl',birdState='entering',phaseStart=performance.now(),canClick=false;
+let firstEntry=true;
 let floatSeedX=Math.random()*1000,floatSeedY=Math.random()*1000;
 let activeStone=null;
 let currentStoneIndex=0;
@@ -621,7 +622,8 @@ bird.addEventListener('click',dropStone);
 function updateBird(now){
   const elapsed=(now-phaseStart)/1000,hoverX=direction==='rtl'?52:48,baseY=33,off=smoothFloat(now);
   if(birdState==='entering'){
-    const t=Math.min(1,elapsed/7.4),e=easeInOutCubic(t),from=direction==='rtl'?118:-18;
+    const entryDuration=firstEntry?(window.matchMedia('(max-width:720px)').matches?1.05:1.75):7.4;
+    const t=Math.min(1,elapsed/entryDuration),e=easeInOutCubic(t),from=direction==='rtl'?118:-18;
     const travelWave =
       Math.sin(t*Math.PI*2.2 + floatSeedY)*5.0 +
       Math.sin(t*Math.PI*4.1 + floatSeedX*.37)*2.8;
@@ -631,7 +633,7 @@ function updateBird(now){
       Math.min(1,t*3),
       lerp(direction==='rtl'?-3:3,0,e)+Math.sin(now/1400)*1.8
     );
-    if(t>=1){birdState='hovering';phaseStart=now;canClick=true}
+    if(t>=1){birdState='hovering';phaseStart=now;canClick=true;firstEntry=false}
   }else if(birdState==='hovering'){
     setBird(hoverX+off.x,baseY+off.y,1,Math.sin(now/1000)*2.0);
   }else if(birdState==='dropping'){
