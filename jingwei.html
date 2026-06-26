@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jingwei — Enrui Zhang</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{
+  margin:0;
+  min-height:100%;
+  color:#292d2e;
+  font-family:Georgia,'Times New Roman',serif;
+}
+body{
+  padding:0 28px 10vh;
+  background-color:#f6f8f6;
+  background-image:
+    linear-gradient(rgba(249,250,247,.82),rgba(246,249,248,.86)),
+    url("IMG_0925.PNG");
+  background-position:center,center top;
+  background-size:cover,cover;
+  background-repeat:no-repeat,no-repeat;
+  background-attachment:fixed,fixed;
+}
+a{color:inherit}
+.name{
+  position:fixed;top:18px;left:22px;z-index:80;
+  padding:10px 15px;
+  background:rgba(246,248,246,.74);
+  backdrop-filter:blur(5px);
+  border:1px solid rgba(57,67,69,.09);
+  border-radius:999px;
+  letter-spacing:.30em;font-size:13px;
+  color:rgba(28,34,35,.82);
+  text-decoration:none;
+}
+.navTop{
+  position:fixed;top:18px;right:22px;z-index:80;
+  display:flex;gap:28px;align-items:center;
+  padding:10px 15px;
+  background:rgba(246,248,246,.74);
+  backdrop-filter:blur(5px);
+  border:1px solid rgba(57,67,69,.09);
+  border-radius:999px;
+}
+.navTop a{
+  font-size:13px;letter-spacing:.30em;text-transform:uppercase;
+  text-decoration:none;color:rgba(28,34,35,.82);
+  border-bottom:1px solid transparent;padding-bottom:5px;
+}
+.page{
+  width:min(88vw,1480px);
+  margin:0 auto;
+  padding-top:78px;
+}
+.section{margin-top:38px}
+.placeholder{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(250,253,250,.60);
+  border:1px solid rgba(45,77,78,.24);
+  color:rgba(35,57,58,.70);
+  text-decoration:none;
+  font-size:10px;
+  letter-spacing:.17em;
+  text-align:center;
+}
+.videoSection{margin-top:0}
+.videoLayout{width:72%;max-width:980px;margin:0 auto}
+.videoPreview{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  height:clamp(340px,30vw,410px);
+  background:#172122;
+  border:1px solid rgba(45,77,78,.24);
+}
+.videoPreview video{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#172122;
+}
+.videoPreviewLink{
+  position:absolute;
+  inset:0 0 44px;
+  z-index:2;
+}
+.videoThumbs{
+  display:flex;
+  justify-content:center;
+  gap:11px;
+  margin-top:8px;
+}
+.videoThumb{
+  position:relative;
+  display:block;
+  width:104px;
+  height:58px;
+  flex:0 0 auto;
+  overflow:hidden;
+  background:#172122;
+  border:1px solid rgba(45,77,78,.24);
+  color:#fff;
+  text-decoration:none;
+}
+.videoThumb video{display:block;width:100%;height:100%;object-fit:cover}
+.videoThumbLabel{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:5px 6px 4px;
+  background:linear-gradient(transparent,rgba(8,17,18,.72));
+  color:rgba(255,255,255,.92);
+  font-size:8px;letter-spacing:.10em;text-align:center;
+  pointer-events:none;
+}
+.about{
+  width:100%;
+  margin:16px auto 0;
+  border-top:1px solid rgba(52,65,68,.18);
+  border-bottom:1px solid rgba(52,65,68,.18);
+}
+.aboutHeader{
+  width:100%;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
+  border:0;
+  padding:10px 0;
+  background:transparent;
+  color:rgba(35,43,44,.78);
+  font-family:Georgia,'Times New Roman',serif;
+  text-align:left;
+  cursor:pointer;
+}
+.aboutTitle{
+  font-size:12px;
+  font-weight:400;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+}
+.aboutArrow{
+  display:inline-block;
+  color:rgba(35,43,44,.62);
+  font-size:15px;
+  line-height:1;
+  transition:transform .35s ease;
+}
+.about.open .aboutArrow{transform:rotate(180deg)}
+.aboutBody{
+  display:grid;
+  grid-template-rows:0fr;
+  opacity:0;
+  transition:grid-template-rows .6s ease,opacity .45s ease;
+}
+.aboutBodyInner{overflow:hidden}
+.aboutText{
+  width:min(680px,100%);
+  margin:0;
+  padding:4px 0 22px;
+  font-size:15px;
+  line-height:1.7;
+  color:rgba(37,45,46,.68);
+}
+.about.open .aboutBody{grid-template-rows:1fr;opacity:1}
+.about + .section{margin-top:16px}
+.worksGrid{
+  width:100%;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(150px,200px));
+  justify-content:center;
+  gap:clamp(26px,3vw,44px);
+}
+.largeWork{aspect-ratio:4/5}
+.notebook{
+  width:100%;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:240px minmax(0,1fr);
+  gap:44px;
+  align-items:center;
+}
+.notebookPreview{
+  width:240px;
+  aspect-ratio:3/4;
+  font-size:11px;
+}
+.notebookThumbs{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(48px,54px));
+  align-items:center;
+  align-content:center;
+  gap:9px;
+  min-width:0;
+  overflow:visible;
+  padding:0;
+}
+.notebookThumb{
+  width:54px;
+  height:66px;
+  font-size:9px;
+  letter-spacing:.08em;
+}
+@media(max-width:720px){
+  body{
+    padding:0 14px 9vh;
+    overflow-x:hidden;
+    background-attachment:scroll,scroll;
+  }
+  .name{
+    top:14px;left:14px;
+    max-width:calc(100vw - 28px);
+    font-size:10px;letter-spacing:.24em;
+    padding:8px 10px;white-space:nowrap;
+  }
+  .navTop{
+    top:52px;left:14px;right:auto;
+    flex-wrap:wrap;gap:12px;
+    max-width:calc(100vw - 28px);
+    padding:8px 10px;
+  }
+  .navTop a{font-size:10px;letter-spacing:.18em;padding-bottom:3px}
+  .page{padding-top:124px}
+  .section{margin-top:62px}
+  .videoLayout{width:100%;max-width:520px}
+  .videoPreview{height:auto;aspect-ratio:16/9}
+  .videoThumbs{justify-content:center;flex-wrap:wrap}
+  .videoThumb{width:92px;height:52px;font-size:9px;letter-spacing:.10em}
+  .about{margin-top:58px}
+  .aboutHeader{min-height:60px}
+  .aboutTitle{font-size:11px;letter-spacing:.20em}
+  .aboutText{font-size:14px;padding-bottom:34px}
+  .worksGrid{grid-template-columns:repeat(2,minmax(0,138px));gap:20px 16px}
+  .notebook{grid-template-columns:1fr;gap:16px}
+  .notebookPreview{width:min(58vw,220px);margin:0 auto}
+  .notebookThumbs{
+    width:100%;
+    grid-template-columns:repeat(auto-fit,minmax(44px,1fr));
+    gap:8px;
+  }
+  .notebookThumb{width:100%;height:58px}
+}
+@media(max-width:370px){
+  .worksGrid{grid-template-columns:minmax(0,210px);gap:24px}
+}
+
+.imageWork,.imagePreview,.imageThumb{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:transparent;
+  border:0;
+  text-decoration:none;
+}
+.imageWork img,.imagePreview img,.imageThumb img{
+  display:block;
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+.imageWorksGrid{
+  display:flex;
+  grid-template-columns:none;
+  justify-content:center;
+  align-items:center;
+  gap:clamp(30px,5vw,72px);
+}
+.imageWorksGrid .largeWork{
+  flex:0 1 42%;
+  width:auto;
+  max-width:42%;
+  height:clamp(260px,34vw,500px);
+  aspect-ratio:auto;
+}
+.notebook.imageNotebook{
+  grid-template-columns:minmax(220px,280px) minmax(0,1fr);
+  gap:clamp(32px,4vw,58px);
+  align-items:stretch;
+}
+.imageNotebook .notebookPreview{
+  width:100%;
+  height:clamp(290px,30vw,410px);
+  aspect-ratio:auto;
+}
+.imageNotebook .notebookThumbs{
+  width:100%;
+  height:clamp(290px,30vw,410px);
+  grid-template-columns:repeat(auto-fit,minmax(38px,56px));
+  grid-auto-rows:clamp(44px,4vw,58px);
+  align-content:center;
+  align-items:center;
+  gap:clamp(8px,1vw,12px);
+  overflow:visible;
+}
+.imageNotebook .notebookThumb{
+  width:100%;
+  height:clamp(44px,4vw,58px);
+}
+@media(max-width:720px){
+  .imageWorksGrid{display:grid;grid-template-columns:1fr;gap:24px}
+  .imageWorksGrid .largeWork{width:100%;max-width:none;height:300px}
+  .notebook.imageNotebook{grid-template-columns:1fr;gap:16px}
+  .imageNotebook .notebookPreview{width:min(68vw,260px);height:auto;aspect-ratio:3/4;margin:0 auto}
+  .imageNotebook .notebookThumbs{height:auto;grid-template-columns:repeat(auto-fit,minmax(36px,50px));grid-auto-rows:44px;gap:8px}
+  .imageNotebook .notebookThumb{height:44px}
+  .imageNotebook .notebookThumb img{height:44px}
+}
+</style>
+</head>
+<body>
+<a class="name" href="jingwei_bird_loop_deepsea_demo_v58_mobile_stars_real_fix.html">ENRUI ZHANG</a>
+<nav class="navTop"><a href="work.html">Work</a><a href="about.html">About</a><a href="cv.html">CV</a></nav>
+
+<main class="page">
+  <section class="section videoSection">
+    <div class="videoLayout">
+      <div class="videoPreview" id="videoPreview">
+        <video id="featuredVideo" src="assets/videos/jingwei/drowning.mp4" controls preload="metadata" muted autoplay playsinline loop></video>
+        <a class="videoPreviewLink" id="videoPreviewLink" href="drowning.html" aria-label="View Drowning"></a>
+      </div>
+      <div class="videoThumbs">
+        <a class="videoThumb" href="drowning.html" data-src="assets/videos/jingwei/drowning.mp4" data-title="Drowning">
+          <video src="assets/videos/jingwei/drowning.mp4" muted preload="metadata" playsinline></video>
+          <span class="videoThumbLabel">Drowning</span>
+        </a>
+        <a class="videoThumb" href="this-hatred.html" data-src="assets/videos/jingwei/this-hatred.mp4" data-title="This Hatred">
+          <video src="assets/videos/jingwei/this-hatred.mp4" muted preload="metadata" playsinline></video>
+          <span class="videoThumbLabel">This Hatred</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="aboutJingwei">
+    <button class="aboutHeader aboutToggle" type="button" aria-expanded="false" aria-controls="aboutBody">
+      <span class="aboutTitle">About Jingwei</span>
+      <span class="aboutArrow" aria-hidden="true">↓</span>
+    </button>
+    <div class="aboutBody" id="aboutBody">
+      <div class="aboutBodyInner">
+        <p class="aboutText">Once, there was a girl.<br><br>Whose daughter she was is not important.<br><br>One day, she went to play by the sea and was drowned.<br><br>After her death, she became a bird. Every day, she carried stones and twigs to the sea, trying to fill it.<br><br>In the original story, no reason is given for her actions. People have therefore imagined many possibilities: perhaps she overestimated her own strength; perhaps she did not want another girl to be drowned; perhaps she was simply filled with anger.<br><br>The sea appears endless. How could a small bird ever fill it?<br><br>When facing a power that seems impossible to challenge, individual strength can feel insignificant. Yet kindness has the right to exist. Anger has the right to exist.<br><br>To throw a stone into an endless sea is an act of resistance.<br><br>And perhaps, one of the most powerful things a person can do.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section largeWorksSection">
+    <div class="worksGrid imageWorksGrid">
+      <a class="largeWork imageWork" href="jingwei-22.html"><img src="assets/images/jingwei/精卫大图1/Jingwei 22, Variable Dimensions, Oil Pastel, Colored Pencil.PNG" alt="Jingwei 22" loading="lazy"></a>
+      <a class="largeWork imageWork" href="jingwei-34.html"><img src="assets/images/jingwei/精卫大图1/Jingwei 34, Variable Dimensions, Oil Pastel, Colored Pencil.PNG" alt="Jingwei 34" loading="lazy"></a>
+    </div>
+  </section>
+
+  <section class="section notebookSection">
+    <div class="notebook imageNotebook">
+      <a class="notebookPreview imagePreview" id="notebookOnePreview" href="jingwei-1.html"><img src="assets/images/jingwei/精卫纸本1/Jingwei 1, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 1"></a>
+      <div class="notebookThumbs">
+        <a class="notebookThumb imageThumb" href="jingwei-1.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 1, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 1"><img src="assets/images/jingwei/精卫纸本1/Jingwei 1, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 1" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-2.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 2, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 2"><img src="assets/images/jingwei/精卫纸本1/Jingwei 2, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 2" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-3.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 3, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 3"><img src="assets/images/jingwei/精卫纸本1/Jingwei 3, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 3" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-4.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 4, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 10.5 cm.jpg" data-alt="Jingwei 4"><img src="assets/images/jingwei/精卫纸本1/Jingwei 4, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 10.5 cm.jpg" alt="Jingwei 4" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-5.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 5, 2026, Oil Pastel, Colored Pencil, 12.5 &#215; 21 cm.jpg" data-alt="Jingwei 5"><img src="assets/images/jingwei/精卫纸本1/Jingwei 5, 2026, Oil Pastel, Colored Pencil, 12.5 &#215; 21 cm.jpg" alt="Jingwei 5" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-6.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 6, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 6"><img src="assets/images/jingwei/精卫纸本1/Jingwei 6, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 6" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-7.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 7, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 7"><img src="assets/images/jingwei/精卫纸本1/Jingwei 7, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 7" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-8.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 8, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 8"><img src="assets/images/jingwei/精卫纸本1/Jingwei 8, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 8" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-9.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 9, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 9"><img src="assets/images/jingwei/精卫纸本1/Jingwei 9, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 9" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-10.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 10, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 10"><img src="assets/images/jingwei/精卫纸本1/Jingwei 10, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 10" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-11.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 11, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 11"><img src="assets/images/jingwei/精卫纸本1/Jingwei 11, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 11" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-12.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 12, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 12"><img src="assets/images/jingwei/精卫纸本1/Jingwei 12, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 12" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-13.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 13, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 13"><img src="assets/images/jingwei/精卫纸本1/Jingwei 13, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 13" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-14.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 14, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 14"><img src="assets/images/jingwei/精卫纸本1/Jingwei 14, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 14" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-15.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 15, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 17.4 cm.jpg" data-alt="Jingwei 15"><img src="assets/images/jingwei/精卫纸本1/Jingwei 15, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 17.4 cm.jpg" alt="Jingwei 15" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-16.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 16, 2026, Oil Pastel, Colored Pencil, 12.2 &#215; 20.5 cm.jpg" data-alt="Jingwei 16"><img src="assets/images/jingwei/精卫纸本1/Jingwei 16, 2026, Oil Pastel, Colored Pencil, 12.2 &#215; 20.5 cm.jpg" alt="Jingwei 16" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-17.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 17, 2026, Oil Pastel, Colored Pencil, 12.3 &#215; 19 cm.jpg" data-alt="Jingwei 17"><img src="assets/images/jingwei/精卫纸本1/Jingwei 17, 2026, Oil Pastel, Colored Pencil, 12.3 &#215; 19 cm.jpg" alt="Jingwei 17" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-18.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 18, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cmJingwei 18, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 18"><img src="assets/images/jingwei/精卫纸本1/Jingwei 18, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cmJingwei 18, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 18" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-19.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 19, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" data-alt="Jingwei 19"><img src="assets/images/jingwei/精卫纸本1/Jingwei 19, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 21 cm.jpg" alt="Jingwei 19" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-20.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/Jingwei 20, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 18 cm.jpg" data-alt="Jingwei 20"><img src="assets/images/jingwei/精卫纸本1/Jingwei 20, 2026, Oil Pastel, Colored Pencil, 13.7 &#215; 18 cm.jpg" alt="Jingwei 20" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-translation-1.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/翻译1.jpg" data-alt="翻译1"><img src="assets/images/jingwei/精卫纸本1/翻译1.jpg" alt="翻译1" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-original-1.html" data-preview-target="notebookOnePreview" data-image="assets/images/jingwei/精卫纸本1/原文1.jpg" data-alt="原文1"><img src="assets/images/jingwei/精卫纸本1/原文1.jpg" alt="原文1" loading="lazy"></a>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section notebookSection">
+    <div class="notebook imageNotebook">
+      <a class="notebookPreview imagePreview" id="notebookTwoPreview" href="jingwei-23.html"><img src="assets/images/jingwei/精卫纸本2/Jingwei 23, 21 &#215; 29.7 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 23"></a>
+      <div class="notebookThumbs">
+        <a class="notebookThumb imageThumb" href="jingwei-23.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 23, 21 &#215; 29.7 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 23"><img src="assets/images/jingwei/精卫纸本2/Jingwei 23, 21 &#215; 29.7 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 23" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-24.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 24, 21 &#215; 28 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 24"><img src="assets/images/jingwei/精卫纸本2/Jingwei 24, 21 &#215; 28 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 24" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-25.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 25, 21 &#215; 24.7 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 25"><img src="assets/images/jingwei/精卫纸本2/Jingwei 25, 21 &#215; 24.7 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 25" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-26.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 26, 21 &#215; 28.5 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 26"><img src="assets/images/jingwei/精卫纸本2/Jingwei 26, 21 &#215; 28.5 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 26" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-27.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 27, 15 &#215; 29.7 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 27"><img src="assets/images/jingwei/精卫纸本2/Jingwei 27, 15 &#215; 29.7 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 27" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-28.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 28, 21 &#215; 29.2 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 28"><img src="assets/images/jingwei/精卫纸本2/Jingwei 28, 21 &#215; 29.2 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 28" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-29.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 29, 20.5 &#215; 29.3 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 29"><img src="assets/images/jingwei/精卫纸本2/Jingwei 29, 20.5 &#215; 29.3 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 29" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-30.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 30, 21 &#215; 29.4 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 30"><img src="assets/images/jingwei/精卫纸本2/Jingwei 30, 21 &#215; 29.4 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 30" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-31.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 31, 21 &#215; 29.7 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 31"><img src="assets/images/jingwei/精卫纸本2/Jingwei 31, 21 &#215; 29.7 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 31" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-32.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 32, 21 &#215; 29.7 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 32"><img src="assets/images/jingwei/精卫纸本2/Jingwei 32, 21 &#215; 29.7 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 32" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="jingwei-33.html" data-preview-target="notebookTwoPreview" data-image="assets/images/jingwei/精卫纸本2/Jingwei 33, 21 &#215; 21 cm, Oil Pastel, Colored Pencil.jpg" data-alt="Jingwei 33"><img src="assets/images/jingwei/精卫纸本2/Jingwei 33, 21 &#215; 21 cm, Oil Pastel, Colored Pencil.jpg" alt="Jingwei 33" loading="lazy"></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const about=document.getElementById('aboutJingwei');
+const aboutToggle=about.querySelector('.aboutToggle');
+aboutToggle.addEventListener('click',()=>{
+  const open=about.classList.toggle('open');
+  aboutToggle.setAttribute('aria-expanded',String(open));
+});
+
+const featuredVideo=document.getElementById('featuredVideo');
+const videoPreviewLink=document.getElementById('videoPreviewLink');
+document.querySelectorAll('.videoThumb').forEach(item=>{
+  const thumbVideo=item.querySelector('video');
+  const update=()=>{
+    if(featuredVideo.getAttribute('src')!==item.dataset.src){
+      featuredVideo.pause();
+      featuredVideo.src=item.dataset.src;
+      featuredVideo.load();
+    }
+    featuredVideo.play().catch(()=>{});
+    videoPreviewLink.href=item.href;
+    videoPreviewLink.setAttribute('aria-label','View '+item.dataset.title);
+  };
+  item.addEventListener('mouseenter',()=>{update();thumbVideo.play().catch(()=>{})});
+  item.addEventListener('mouseleave',()=>thumbVideo.pause());
+  item.addEventListener('focus',update);
+  item.addEventListener('click',update);
+});
+document.querySelectorAll('.imageNotebook .notebookThumb').forEach(item=>{
+  const update=()=>{
+    const preview=document.getElementById(item.dataset.previewTarget);
+    const image=preview.querySelector('img');
+    image.src=item.dataset.image;
+    image.alt=item.dataset.alt;
+    preview.href=item.href;
+  };
+  item.addEventListener('mouseenter',update);
+  item.addEventListener('focus',update);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Other Stones — Enrui Zhang</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{
+  margin:0;
+  min-height:100%;
+  color:#292d2e;
+  font-family:Georgia,'Times New Roman',serif;
+}
+body{
+  padding:0 28px 10vh;
+  background-color:#f6f8f6;
+  background-image:
+    linear-gradient(rgba(249,250,247,.82),rgba(246,249,248,.86)),
+    url("IMG_0925.PNG");
+  background-position:center,center top;
+  background-size:cover,cover;
+  background-repeat:no-repeat,no-repeat;
+  background-attachment:fixed,fixed;
+}
+a{color:inherit}
+.name{
+  position:fixed;top:18px;left:22px;z-index:80;
+  padding:10px 15px;
+  background:rgba(246,248,246,.74);
+  backdrop-filter:blur(5px);
+  border:1px solid rgba(57,67,69,.09);
+  border-radius:999px;
+  letter-spacing:.30em;font-size:13px;
+  color:rgba(28,34,35,.82);
+  text-decoration:none;
+}
+.navTop{
+  position:fixed;top:18px;right:22px;z-index:80;
+  display:flex;gap:28px;align-items:center;
+  padding:10px 15px;
+  background:rgba(246,248,246,.74);
+  backdrop-filter:blur(5px);
+  border:1px solid rgba(57,67,69,.09);
+  border-radius:999px;
+}
+.navTop a{
+  font-size:13px;letter-spacing:.30em;text-transform:uppercase;
+  text-decoration:none;color:rgba(28,34,35,.82);
+  border-bottom:1px solid transparent;padding-bottom:5px;
+}
+.page{
+  width:min(88vw,1480px);
+  margin:0 auto;
+  padding-top:78px;
+}
+.projectGroup+.projectGroup{
+  margin-top:46px;
+  padding-top:46px;
+  border-top:1px solid rgba(73,96,101,.12);
+}
+.placeholder{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(250,253,250,.60);
+  border:1px solid rgba(45,77,78,.24);
+  color:rgba(35,57,58,.70);
+  text-decoration:none;
+  font-size:10px;
+  letter-spacing:.17em;
+  text-align:center;
+}
+.videoLayout{width:72%;max-width:980px;margin:0 auto}
+.videoPreview{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  height:clamp(340px,30vw,410px);
+  background:#172122;
+  border:1px solid rgba(45,77,78,.24);
+}
+.videoPreview video{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#172122;
+}
+.videoPreviewLink{
+  position:absolute;
+  inset:0 0 44px;
+  z-index:2;
+}
+.videoThumbs{
+  display:flex;
+  justify-content:center;
+  gap:11px;
+  margin-top:8px;
+}
+.videoThumb{
+  position:relative;
+  display:block;
+  width:104px;
+  height:58px;
+  flex:0 0 auto;
+  overflow:hidden;
+  background:#172122;
+  border:1px solid rgba(45,77,78,.24);
+  color:#fff;
+  text-decoration:none;
+}
+.videoThumb video{display:block;width:100%;height:100%;object-fit:cover}
+.videoThumbLabel{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:10px 4px 4px;
+  background:linear-gradient(transparent,rgba(8,17,18,.78));
+  color:rgba(255,255,255,.94);
+  font-size:7px;line-height:1.2;letter-spacing:.05em;text-align:center;
+  pointer-events:none;
+}
+.about{
+  width:74%;
+  margin:16px auto 0;
+  border-top:1px solid rgba(52,65,68,.18);
+  border-bottom:1px solid rgba(52,65,68,.18);
+}
+.aboutHeader{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
+}
+.aboutHeader h2{
+  margin:0;
+  font-size:12px;
+  font-weight:400;
+  letter-spacing:.20em;
+}
+.aboutToggle{
+  border:0;
+  padding:8px 0;
+  background:transparent;
+  color:rgba(35,43,44,.62);
+  font:12px Georgia,'Times New Roman',serif;
+  letter-spacing:.14em;
+  cursor:pointer;
+}
+.aboutBody{
+  display:grid;
+  grid-template-rows:0fr;
+  opacity:0;
+  transition:grid-template-rows .6s ease,opacity .45s ease;
+}
+.aboutBodyInner{overflow:hidden}
+.aboutText{
+  width:min(680px,100%);
+  margin:0;
+  padding:4px 0 22px;
+  font-size:15px;
+  line-height:1.7;
+  color:rgba(37,45,46,.68);
+}
+.about.open .aboutBody{grid-template-rows:1fr;opacity:1}
+.largeBlock{margin-top:16px}
+.projectGroup:first-of-type .videoLayout+.largeBlock{margin-top:64px}
+.worksGrid{
+  width:100%;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(150px,200px));
+  justify-content:center;
+  gap:clamp(26px,3vw,44px);
+}
+.largeWork{aspect-ratio:4/5}
+.notebook{
+  width:100%;
+  margin:38px auto 0;
+  display:grid;
+  grid-template-columns:240px minmax(0,1fr);
+  gap:44px;
+  align-items:center;
+}
+.notebookPreview{
+  width:240px;
+  aspect-ratio:3/4;
+  font-size:11px;
+}
+.notebookThumbs{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(48px,54px));
+  align-items:center;
+  align-content:center;
+  gap:9px;
+  min-width:0;
+  overflow:visible;
+  padding:0;
+}
+.notebookThumb{
+  width:54px;
+  height:66px;
+  font-size:9px;
+  letter-spacing:.08em;
+}
+.vanishedText{
+  width:min(270px,32%);
+  margin:24px 6% 0 auto;
+  color:rgba(35,48,50,.66);
+  font-size:12px;
+  line-height:1.58;
+  letter-spacing:.13em;
+}
+.vanishedText span{display:block;width:max-content;max-width:100%}
+.vanishedText span:nth-child(1){transform:translateX(9px)}
+.vanishedText span:nth-child(2){transform:translateX(31px);margin-top:3px}
+.vanishedText span:nth-child(3){transform:translateX(-7px);margin-top:7px}
+
+.imageWork,.imagePreview,.imageThumb{overflow:hidden;background:transparent;border:0;text-decoration:none}
+.imageWork,.imagePreview{display:flex;align-items:center;justify-content:center}
+.imageThumb{display:flex;align-items:center;justify-content:center}
+.imageWork img,.imagePreview img,.imageThumb img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;margin:auto}
+:root{
+  --large-work-row-height:clamp(120px,15vw,250px);
+  --notebook-thumb-height:clamp(44px,4vw,58px);
+}
+.worksGrid{display:flex;grid-template-columns:none;align-items:center;justify-content:center;gap:clamp(24px,3vw,44px)}
+.largeWork{flex:1 1 0;max-width:32%;height:clamp(240px,25vw,380px);aspect-ratio:auto}
+.worksGrid .largeWork img{width:auto;height:100%;max-width:100%;max-height:100%;object-fit:contain}
+.projectGroup:first-of-type .worksGrid .largeWork{
+  flex:0 1 auto;
+  width:auto;
+  max-width:none;
+  height:auto;
+  overflow:visible;
+}
+.projectGroup:first-of-type .worksGrid .largeWork img{
+  display:block;
+  width:auto;
+  height:var(--large-work-row-height);
+  max-width:none;
+  max-height:none;
+  object-fit:contain;
+}
+.notebook{grid-template-columns:minmax(220px,280px) minmax(0,1fr);gap:clamp(32px,4vw,58px);align-items:stretch}
+.notebookPreview{width:100%;height:clamp(290px,30vw,410px);aspect-ratio:auto}
+.notebookThumbs{
+  height:clamp(290px,30vw,410px);
+  grid-template-columns:repeat(auto-fit,minmax(38px,56px));
+  grid-auto-rows:var(--notebook-thumb-height);
+  align-content:center;
+  align-items:center;
+  gap:clamp(8px,1vw,12px);
+}
+.notebookThumb{width:100%;height:var(--notebook-thumb-height);min-width:0}
+.notebookThumb img{
+  display:block;
+  width:auto;
+  height:var(--notebook-thumb-height);
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+.featuredPaperWork{display:flex;justify-content:flex-end;margin:28px 6% 0 0}
+.featuredPaperWork .largeWork{display:block;flex:none;width:min(50vw,720px);max-width:none;height:auto}
+.featuredPaperWork img{display:block;width:100%;height:auto;object-fit:contain}
+@media(max-width:720px){
+  body{
+    padding:0 14px 9vh;
+    overflow-x:hidden;
+    background-attachment:scroll,scroll;
+  }
+  .name{
+    top:14px;left:14px;
+    max-width:calc(100vw - 28px);
+    font-size:10px;letter-spacing:.24em;
+    padding:8px 10px;white-space:nowrap;
+  }
+  .navTop{
+    top:52px;left:14px;right:auto;
+    flex-wrap:wrap;gap:12px;
+    max-width:calc(100vw - 28px);
+    padding:8px 10px;
+  }
+  .navTop a{font-size:10px;letter-spacing:.18em;padding-bottom:3px}
+  .page{padding-top:124px}
+  .projectGroup+.projectGroup{margin-top:36px;padding-top:36px}
+  .videoLayout{width:100%;max-width:520px}
+  .videoPreview{height:auto;aspect-ratio:16/9}
+  .videoThumbs{justify-content:center;flex-wrap:wrap}
+  .videoThumb{width:92px;height:52px;font-size:9px;letter-spacing:.10em}
+  .about{width:100%;margin-top:14px}
+  .aboutHeader{min-height:44px}
+  .aboutHeader h2{font-size:10px;letter-spacing:.12em;line-height:1.45}
+  .aboutText{font-size:14px;padding-bottom:20px}
+  .largeBlock{margin-top:14px}
+  .projectGroup:first-of-type .videoLayout+.largeBlock{margin-top:48px}
+  .worksGrid{grid-template-columns:repeat(2,minmax(0,138px));gap:20px 16px}
+  .notebook{grid-template-columns:1fr;gap:16px;margin-top:30px}
+  .notebookPreview{width:min(68vw,260px);height:auto;aspect-ratio:3/4;margin:0 auto}
+  .notebookThumbs{
+    width:100%;
+    height:auto;
+    grid-template-columns:repeat(auto-fit,minmax(36px,50px));
+    grid-auto-rows:44px;
+    gap:8px;
+  }
+  .notebookThumb{width:100%;height:44px}
+  .notebookThumb img{height:44px}
+  .vanishedText{width:auto;margin:20px 0 0 auto;font-size:11px;line-height:1.7}
+}
+@media(max-width:370px){
+  .worksGrid{grid-template-columns:minmax(0,210px);gap:24px}
+}
+
+@media(max-width:720px){
+  .worksGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 16px}
+  .largeWork{max-width:none;width:100%;height:220px}
+  .projectGroup:first-of-type .worksGrid .largeWork{width:100%;max-width:none;height:220px;overflow:hidden}
+  .projectGroup:first-of-type .worksGrid .largeWork img{width:auto;height:100%;max-width:100%;max-height:100%}
+  .featuredPaperWork{margin:22px 0 0;justify-content:flex-end}
+  .featuredPaperWork .largeWork{width:min(82vw,420px);height:auto}
+}
+</style>
+</head>
+<body>
+<a class="name" href="jingwei_bird_loop_deepsea_demo_v58_mobile_stars_real_fix.html">ENRUI ZHANG</a>
+<nav class="navTop"><a href="work.html">Work</a><a href="about.html">About</a><a href="cv.html">CV</a></nav>
+
+<main class="page">
+  <section class="projectGroup">
+    <div class="videoLayout">
+      <div class="videoPreview" id="videoPreviewOne">
+        <video id="featuredOtherStonesVideo" src="assets/videos/other-stones/hometown.mp4" controls preload="metadata" muted autoplay playsinline loop></video>
+        <a class="videoPreviewLink" id="otherStonesVideoLink" href="hometown.html" aria-label="View Hometown"></a>
+      </div>
+      <div class="videoThumbs">
+        <a class="videoThumb" href="hometown.html" data-video-src="assets/videos/other-stones/hometown.mp4" data-title="Hometown"><video src="assets/videos/other-stones/hometown.mp4" muted preload="metadata" playsinline></video><span class="videoThumbLabel">Hometown</span></a>
+        <a class="videoThumb" href="palm-mountain.html" data-video-src="assets/videos/other-stones/palm-mountain.mp4" data-title="Palm Mountain"><video src="assets/videos/other-stones/palm-mountain.mp4" muted preload="metadata" playsinline></video><span class="videoThumbLabel">Palm Mountain</span></a>
+        <a class="videoThumb" href="the-only-window-to-leave-this-house.html" data-video-src="assets/videos/other-stones/the-only-window-to-leave-this-house.mp4" data-title="The Only Window to Leave This House"><video src="assets/videos/other-stones/the-only-window-to-leave-this-house.mp4" muted preload="metadata" playsinline></video><span class="videoThumbLabel">The Only Window to Leave This House</span></a>
+        <a class="videoThumb" href="gravity.html" data-video-src="assets/videos/other-stones/gravity.mp4" data-title="Gravity"><video src="assets/videos/other-stones/gravity.mp4" muted preload="metadata" playsinline></video><span class="videoThumbLabel">Gravity</span></a>
+        <a class="videoThumb" href="404-mandarin-duck-hotpot.html" data-video-src="assets/videos/other-stones/404-mandarin-duck-hotpot.mp4" data-title="404 Mandarin Duck Hotpot"><video src="assets/videos/other-stones/404-mandarin-duck-hotpot.mp4" muted preload="metadata" playsinline></video><span class="videoThumbLabel">404 Mandarin Duck Hotpot</span></a>
+        <a class="videoThumb" href="vibrant-world.html" data-video-src="assets/videos/other-stones/vibrant-world.mp4" data-title="Vibrant World"><video src="assets/videos/other-stones/vibrant-world.mp4" muted preload="metadata" playsinline></video><span class="videoThumbLabel">Vibrant World</span></a>
+      </div>
+    </div>
+    <div class="largeBlock">
+      <div class="worksGrid">
+        <a class="largeWork imageWork" href="a-plan-about-bryophyllum-pinnatum.html"><img src="assets/images/other-stones/a-plan-about-bryophyllum-pinnatum-main.jpg" alt="A Plan About Bryophyllum pinnatum" loading="lazy"></a>
+        <a class="largeWork imageWork" href="a-project-about-irrigation.html"><img src="assets/images/other-stones/a-project-about-irrigation-main.png" alt="A Project About Irrigation" loading="lazy"></a>
+        <a class="largeWork imageWork" href="only-two-people-and-they-are-asleep.html"><img src="assets/images/other-stones/only-two-people-and-they-are-asleep-main.png" alt="Only Two People, and They are Asleep" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="notebook">
+      <a class="notebookPreview imagePreview" id="notebookOnePreview" href="a-person-holding.html"><img src="assets/images/other-stones/a-person-holding-main.jpeg" alt="A Person, Holding"></a>
+      <div class="notebookThumbs">
+        <a class="notebookThumb imageThumb" href="a-person-holding.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/a-person-holding-main.jpeg" data-title="A Person, Holding"><img src="assets/images/other-stones/a-person-holding-main.jpeg" alt="A Person, Holding" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="a-snake-a-lover.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/a-snake-a-lover-main.jpeg" data-title="A Snake, A Lover"><img src="assets/images/other-stones/a-snake-a-lover-main.jpeg" alt="A Snake, A Lover" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="a-son-in-the-childrens-room.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/a-son-in-the-childrens-room-main.jpg" data-title="A Son in the Children&#x27;s Room"><img src="assets/images/other-stones/a-son-in-the-childrens-room-main.jpg" alt="A Son in the Children&#x27;s Room" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="dancing.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/dancing-main.jpeg" data-title="Dancing"><img src="assets/images/other-stones/dancing-main.jpeg" alt="Dancing" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="freedom-and-resentment.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/freedom-and-resentment-main.jpeg" data-title="Freedom and Resentment"><img src="assets/images/other-stones/freedom-and-resentment-main.jpeg" alt="Freedom and Resentment" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="half-a-mushroom.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/half-a-mushroom-main.jpeg" data-title="Half a Mushroom"><img src="assets/images/other-stones/half-a-mushroom-main.jpeg" alt="Half a Mushroom" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="happiness.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/happiness-main.jpeg" data-title="Happiness"><img src="assets/images/other-stones/happiness-main.jpeg" alt="Happiness" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-are-nine-people.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-are-nine-people-main.jpeg" data-title="There are Nine People"><img src="assets/images/other-stones/there-are-nine-people-main.jpeg" alt="There are Nine People" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-are-no-guns-here.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-are-no-guns-here-main.jpeg" data-title="There Are No Guns Here"><img src="assets/images/other-stones/there-are-no-guns-here-main.jpeg" alt="There Are No Guns Here" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-are-not-three-people.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-are-not-three-people-main.jpeg" data-title="There are Not Three People"><img src="assets/images/other-stones/there-are-not-three-people-main.jpeg" alt="There are Not Three People" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-are-only-trees.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-are-only-trees-main.jpeg" data-title="There are Only Trees"><img src="assets/images/other-stones/there-are-only-trees-main.jpeg" alt="There are Only Trees" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-are-six-people-here.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-are-six-people-here-main.jpeg" data-title="There Are Six People Here"><img src="assets/images/other-stones/there-are-six-people-here-main.jpeg" alt="There Are Six People Here" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-are-three-penguins.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-are-three-penguins-main.jpeg" data-title="There are Three Penguins"><img src="assets/images/other-stones/there-are-three-penguins-main.jpeg" alt="There are Three Penguins" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-is-also-no-one-here.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-is-also-no-one-here-main.jpeg" data-title="There is Also No One Here"><img src="assets/images/other-stones/there-is-also-no-one-here-main.jpeg" alt="There is Also No One Here" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-is-no-one-here.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-is-no-one-here-main.jpeg" data-title="There is No One Here"><img src="assets/images/other-stones/there-is-no-one-here-main.jpeg" alt="There is No One Here" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-is-no-room-here.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-is-no-room-here-main.jpeg" data-title="There Is No Room Here"><img src="assets/images/other-stones/there-is-no-room-here-main.jpeg" alt="There Is No Room Here" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-is-one-dog.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/there-is-one-dog-main.jpeg" data-title="There is One Dog"><img src="assets/images/other-stones/there-is-one-dog-main.jpeg" alt="There is One Dog" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="thirteen-mushrooms.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/thirteen-mushrooms-main.jpeg" data-title="Thirteen Mushrooms"><img src="assets/images/other-stones/thirteen-mushrooms-main.jpeg" alt="Thirteen Mushrooms" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="water-tank-i.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/water-tank-i-main.jpeg" data-title="Water Tank I"><img src="assets/images/other-stones/water-tank-i-main.jpeg" alt="Water Tank I" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="water-tank-ii.html" data-preview-target="notebookOnePreview" data-image="assets/images/other-stones/water-tank-ii-main.jpeg" data-title="Water Tank II"><img src="assets/images/other-stones/water-tank-ii-main.jpeg" alt="Water Tank II" loading="lazy"></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="projectGroup">
+    <div class="largeBlock">
+      <div class="worksGrid">
+        <a class="largeWork imageWork" href="a-person-familiar.html"><img src="assets/images/other-stones/a-person-familiar-main.jpeg" alt="A Person, Familiar" loading="lazy"></a>
+        <a class="largeWork imageWork" href="escape.html"><img src="assets/images/other-stones/escape-main.jpg" alt="Escape" loading="lazy"></a>
+        <a class="largeWork imageWork" href="three-living-people-laying-eggs.html"><img src="assets/images/other-stones/three-living-people-laying-eggs-main.jpeg" alt="Three Living People, Laying Eggs" loading="lazy"></a>
+      </div>
+    </div>
+    <p class="vanishedText"><span>Never forget</span><span>the women</span><span>who cannot escape the mountains.</span></p>
+    <div class="notebook">
+      <a class="notebookPreview imagePreview" id="notebookTwoPreview" href="a-living-person-a-fair-trial.html"><img src="assets/images/other-stones/a-living-person-a-fair-trial-main.jpg" alt="A Living Person, A Fair Trial"></a>
+      <div class="notebookThumbs">
+        <a class="notebookThumb imageThumb" href="a-living-person-a-fair-trial.html" data-preview-target="notebookTwoPreview" data-image="assets/images/other-stones/a-living-person-a-fair-trial-main.jpg" data-title="A Living Person, A Fair Trial"><img src="assets/images/other-stones/a-living-person-a-fair-trial-main.jpg" alt="A Living Person, A Fair Trial" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="a-person-laughing.html" data-preview-target="notebookTwoPreview" data-image="assets/images/other-stones/a-person-laughing-main.jpeg" data-title="A Person, Laughing"><img src="assets/images/other-stones/a-person-laughing-main.jpeg" alt="A Person, Laughing" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="bowl.html" data-preview-target="notebookTwoPreview" data-image="assets/images/other-stones/bowl-main.jpeg" data-title="Bowl"><img src="assets/images/other-stones/bowl-main.jpeg" alt="Bowl" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-are-two-houses.html" data-preview-target="notebookTwoPreview" data-image="assets/images/other-stones/there-are-two-houses-main.png" data-title="There are Two Houses"><img src="assets/images/other-stones/there-are-two-houses-main.png" alt="There are Two Houses" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="there-is-only-one-person-here.html" data-preview-target="notebookTwoPreview" data-image="assets/images/other-stones/there-is-only-one-person-here-main.jpeg" data-title="There is Only One Person Here"><img src="assets/images/other-stones/there-is-only-one-person-here-main.jpeg" alt="There is Only One Person Here" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="featuredPaperWork">
+      <a class="largeWork imageWork" href="a-project-about-sanitary-pads.html"><img src="assets/images/other-stones/a-project-about-sanitary-pads-main.jpg" alt="A Project About Sanitary Pads" loading="lazy"></a>
+    </div>
+  </section>
+
+  <section class="projectGroup">
+    <div class="largeBlock">
+      <div class="worksGrid">
+        <a class="largeWork imageWork" href="an-elephant-a-choice.html"><img src="assets/images/other-stones/an-elephant-a-choice-main.jpeg" alt="An Elephant, A Choice" loading="lazy"></a>
+        <a class="largeWork imageWork" href="forbidden.html"><img src="assets/images/other-stones/forbidden-main.jpeg" alt="Forbidden" loading="lazy"></a>
+        <a class="largeWork imageWork" href="untitled-2021-installation.html"><img src="assets/images/other-stones/untitled-2021-installation-main.jpeg" alt="Untitled" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="notebook">
+      <a class="notebookPreview imagePreview" id="notebookThreePreview" href="a-street-lamp.html"><img src="assets/images/other-stones/a-street-lamp-main.jpeg" alt="A Street Lamp"></a>
+      <div class="notebookThumbs">
+        <a class="notebookThumb imageThumb" href="a-street-lamp.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/a-street-lamp-main.jpeg" data-title="A Street Lamp"><img src="assets/images/other-stones/a-street-lamp-main.jpeg" alt="A Street Lamp" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="an-embryo.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/an-embryo-main.jpeg" data-title="An Embryo"><img src="assets/images/other-stones/an-embryo-main.jpeg" alt="An Embryo" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="bird-beak.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/bird-beak-main.jpeg" data-title="Bird Beak"><img src="assets/images/other-stones/bird-beak-main.jpeg" alt="Bird Beak" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="elephant-and-two-figures.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/elephant-and-two-figures-main.jpeg" data-title="Elephant and Two Figures"><img src="assets/images/other-stones/elephant-and-two-figures-main.jpeg" alt="Elephant and Two Figures" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="good.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/good-main.jpeg" data-title="Good"><img src="assets/images/other-stones/good-main.jpeg" alt="Good" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="i-invite-you.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/i-invite-you-main.jpeg" data-title="I Invite You"><img src="assets/images/other-stones/i-invite-you-main.jpeg" alt="I Invite You" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="my-five-hands.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/my-five-hands-main.jpeg" data-title="My Five Hands"><img src="assets/images/other-stones/my-five-hands-main.jpeg" alt="My Five Hands" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="someone-is-inside-the-umbrella.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/someone-is-inside-the-umbrella-main.jpeg" data-title="Someone Is Inside the Umbrella"><img src="assets/images/other-stones/someone-is-inside-the-umbrella-main.jpeg" alt="Someone Is Inside the Umbrella" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="two-people-one-is-not.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/two-people-one-is-not-main.jpeg" data-title="Two People, One Is Not"><img src="assets/images/other-stones/two-people-one-is-not-main.jpeg" alt="Two People, One Is Not" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="wall-of-fire-1.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/wall-of-fire-1-main.jpg" data-title="Wall of Fire1"><img src="assets/images/other-stones/wall-of-fire-1-main.jpg" alt="Wall of Fire1" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="wall-of-fire-2.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/wall-of-fire-2-main.jpg" data-title="Wall of Fire2"><img src="assets/images/other-stones/wall-of-fire-2-main.jpg" alt="Wall of Fire2" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="wall-of-fire-3.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/wall-of-fire-3-main.jpg" data-title="Wall of Fire3"><img src="assets/images/other-stones/wall-of-fire-3-main.jpg" alt="Wall of Fire3" loading="lazy"></a>
+        <a class="notebookThumb imageThumb" href="well-done.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/well-done-main.jpeg" data-title="Well Done"><img src="assets/images/other-stones/well-done-main.jpeg" alt="Well Done" loading="lazy"></a>
+        <a class="notebookThumb imageThumb movedPaperThumb" href="the-snakes-fairy-tale.html" data-preview-target="notebookThreePreview" data-image="assets/images/other-stones/the-snakes-fairy-tale-main.jpeg" data-title="The Snake&#x27;s Fairy Tale"><img src="assets/images/other-stones/the-snakes-fairy-tale-main.jpeg" alt="The Snake&#x27;s Fairy Tale" loading="lazy"></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+document.querySelectorAll('.about').forEach(about=>{
+  const toggle=about.querySelector('.aboutToggle');
+  toggle.addEventListener('click',()=>{
+    const open=about.classList.toggle('open');
+    toggle.setAttribute('aria-expanded',String(open));
+    toggle.textContent=open?'收起':'展开';
+  });
+});
+
+const featuredOtherStonesVideo=document.getElementById('featuredOtherStonesVideo');
+const otherStonesVideoLink=document.getElementById('otherStonesVideoLink');
+document.querySelectorAll('.videoThumb').forEach(item=>{
+  const thumbVideo=item.querySelector('video');
+  const update=()=>{
+    if(featuredOtherStonesVideo.getAttribute('src')!==item.dataset.videoSrc){
+      featuredOtherStonesVideo.pause();
+      featuredOtherStonesVideo.src=item.dataset.videoSrc;
+      featuredOtherStonesVideo.load();
+    }
+    featuredOtherStonesVideo.play().catch(()=>{});
+    otherStonesVideoLink.href=item.href;
+    otherStonesVideoLink.setAttribute('aria-label','View '+item.dataset.title);
+  };
+  item.addEventListener('mouseenter',()=>{update();thumbVideo.play().catch(()=>{})});
+  item.addEventListener('mouseleave',()=>thumbVideo.pause());
+  item.addEventListener('focus',update);
+  item.addEventListener('click',update);
+});
+
+document.querySelectorAll('.notebookThumb[data-image]').forEach(item=>{
+  const update=()=>{
+    const preview=document.getElementById(item.dataset.previewTarget);
+    const image=preview.querySelector('img');
+    image.src=item.dataset.image;
+    image.alt=item.dataset.title;
+    preview.href=item.href;
+  };
+  item.addEventListener('mouseenter',update);
+  item.addEventListener('focus',update);
+  item.addEventListener('click',update);
+});
+</script>
+</body>
+</html>
