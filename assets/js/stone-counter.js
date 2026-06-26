@@ -7,6 +7,7 @@
   let firebaseReady = false;
   let firebaseLoading = null;
   let databaseRef = null;
+  let realtimeListening = false;
 
   function hasUsableFirebaseConfig() {
     const config = window.FIREBASE_CONFIG;
@@ -75,11 +76,33 @@
     return firebaseLoading;
   }
 
+  function startRealtimeListener() {
+    if (!databaseRef || realtimeListening) return;
+    realtimeListening = true;
+    try {
+      databaseRef.on(
+        "value",
+        (snapshot) => {
+          const remoteValue = Number(snapshot.val() || 0);
+          if (!Number.isFinite(remoteValue)) return;
+          writeLocalCount(remoteValue);
+          renderStoneCount(remoteValue);
+        },
+        () => {
+          realtimeListening = false;
+        }
+      );
+    } catch (error) {
+      realtimeListening = false;
+    }
+  }
+
   async function getStoneCount() {
     const canUseFirebase = await ensureFirebase();
     if (!canUseFirebase || !databaseRef) {
       return readLocalCount();
     }
+    startRealtimeListener();
     try {
       const snapshot = await databaseRef.get();
       const remoteValue = Number(snapshot.val() || 0);
@@ -100,6 +123,7 @@
       writeLocalCount(nextLocal);
       return renderStoneCount(nextLocal);
     }
+    startRealtimeListener();
     try {
       const result = await databaseRef.transaction((current) => Number(current || 0) + 1);
       const nextRemote = Number(result.snapshot.val() || 0);
