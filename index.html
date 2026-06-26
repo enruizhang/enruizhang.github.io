@@ -248,13 +248,47 @@ body.nearBottom .star{opacity:var(--starOpacity,.86)}
 
 
 
-.hint{
-    top:16%;
-    font-size:11px;
+@media(max-width:720px){
+  body{height:820vh}
+
+  .name{
+    top:14px;
+    left:14px;
+    max-width:calc(100vw - 28px);
+    font-size:10px;
+    letter-spacing:.22em;
+    padding:8px 10px;
+    white-space:nowrap;
+  }
+
+  .navTop{
+    top:50px;
+    left:14px;
+    right:auto;
+    display:flex;
+    flex-wrap:nowrap;
+    gap:16px;
+    max-width:calc(100vw - 28px);
+    padding:8px 10px;
+  }
+
+  .navTop a{
+    font-size:10px;
+    letter-spacing:.16em;
+    padding-bottom:3px;
+  }
+
+  .birdWrap{width:115px}
+
+  .hint{
+    top:18%;
+    font-size:12px;
     letter-spacing:.10em;
-    padding:0 18px;
+    padding:9px 20px;
     max-width:78vw;
   }
+
+  .hint span{font-size:10px!important}
 
   .bottomText{
     position:fixed !important;
@@ -311,10 +345,33 @@ body.nearBottom .star{opacity:var(--starOpacity,.86)}
     height:8.6vh;
   }
 }
-
+.homeLoader{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 50% 40%,rgba(255,255,255,.72),rgba(238,244,242,.82) 56%,rgba(216,230,230,.90) 100%);
+  color:rgba(24,52,58,.64);
+  font-size:13px;
+  letter-spacing:.18em;
+  line-height:1.8;
+  text-transform:lowercase;
+  transition:opacity .75s ease,visibility .75s ease;
+  pointer-events:none;
+}
+.homeLoader span{animation:loaderBreath 2.2s ease-in-out infinite}
+.homeLoader.isHidden{opacity:0;visibility:hidden}
+@keyframes loaderBreath{0%,100%{opacity:.42}50%{opacity:.78}}
 </style>
 </head>
 <body>
+<div class="homeLoader" id="homeLoader"><span>Loading the sea...</span></div>
+<script>
+(()=>{const loader=document.getElementById('homeLoader');if(!loader)return;let hidden=false;const hide=()=>{if(hidden)return;hidden=true;loader.classList.add('isHidden');setTimeout(()=>loader.remove(),900)};window.addEventListener('load',hide,{once:true});setTimeout(hide,4200)})();
+</script>
 <div class="scene">
   <div class="world">
     <div class="sky"></div><div class="horizon"></div><div class="seaSurface"></div><img class="waveSurface" id="waveSurface" alt=""><div class="waterColumn"></div><div class="blackBuffer"></div><div class="starfield" id="starfield"></div>
