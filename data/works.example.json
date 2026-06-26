@@ -1,0 +1,56 @@
+[
+  {
+    "id": "jingwei-example",
+    "title": "Jingwei Example",
+    "year": "2026",
+    "medium": "Painting / video / notebook",
+    "dimensions": "Dimensions variable",
+    "category": "image",
+    "series": "Jingwei",
+    "description": "Example structure for a Jingwei work.",
+    "images": [
+      "assets/images/jingwei/example.jpg"
+    ],
+    "videos": [],
+    "page": "jingwei-example.html",
+    "notes": "Replace this example with real data later.",
+    "createdAt": "2026-06-26T00:00:00.000Z",
+    "updatedAt": "2026-06-26T00:00:00.000Z"
+  },
+  {
+    "id": "other-stones-example",
+    "title": "Other Stones Example",
+    "year": "Year unknown",
+    "medium": "Medium unknown",
+    "dimensions": "Dimensions unknown",
+    "category": "image",
+    "series": "Other Stones",
+    "description": "Example structure for an Other Stones work.",
+    "images": [
+      "assets/images/other-stones/example.jpg"
+    ],
+    "videos": [],
+    "page": "other-stones-example.html",
+    "notes": "Static pages are still the public source for now.",
+    "createdAt": "2026-06-26T00:00:00.000Z",
+    "updatedAt": "2026-06-26T00:00:00.000Z"
+  },
+  {
+    "id": "video-work-example",
+    "title": "Video Work Example",
+    "year": "2026",
+    "medium": "Video",
+    "dimensions": "Dimensions variable",
+    "category": "video",
+    "series": "Video Works",
+    "description": "Example structure for a video work.",
+    "images": [],
+    "videos": [
+      "assets/videos/example.mp4"
+    ],
+    "page": "video-work-example.html",
+    "notes": "Video files may later be stored in Firebase Storage.",
+    "createdAt": "2026-06-26T00:00:00.000Z",
+    "updatedAt": "2026-06-26T00:00:00.000Z"
+  }
+]
