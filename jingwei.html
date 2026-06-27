@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jingwei 鈥?Enrui Zhang</title>
+<title>Jingwei - Enrui Zhang</title>
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -232,6 +232,14 @@ a{color:inherit}
   .videoPreview{height:auto;aspect-ratio:16/9}
   .videoThumbs{justify-content:center;flex-wrap:wrap}
   .videoThumb{width:92px;height:52px;font-size:9px;letter-spacing:.10em}
+  .videoThumb video{pointer-events:none}
+  .videoThumb video::-webkit-media-controls,
+  .videoThumb video::-webkit-media-controls-panel,
+  .videoThumb video::-webkit-media-controls-play-button,
+  .videoThumb video::-webkit-media-controls-start-playback-button{
+    display:none!important;
+    -webkit-appearance:none;
+  }
   .about{margin-top:58px}
   .aboutHeader{min-height:60px}
   .aboutTitle{font-size:11px;letter-spacing:.20em}
@@ -422,8 +430,20 @@ aboutToggle.addEventListener('click',()=>{
 
 const featuredVideo=document.getElementById('featuredVideo');
 const videoPreviewLink=document.getElementById('videoPreviewLink');
+const useMobileVideoThumbs=window.matchMedia('(max-width:720px)').matches;
 document.querySelectorAll('.videoThumb').forEach(item=>{
   const thumbVideo=item.querySelector('video');
+  if(useMobileVideoThumbs&&thumbVideo){
+    thumbVideo.controls=false;
+    thumbVideo.removeAttribute('controls');
+    thumbVideo.muted=true;
+    thumbVideo.loop=true;
+    thumbVideo.playsInline=true;
+    thumbVideo.setAttribute('playsinline','');
+    thumbVideo.setAttribute('webkit-playsinline','');
+    thumbVideo.setAttribute('preload','metadata');
+    thumbVideo.play().catch(()=>{});
+  }
   const update=()=>{
     if(featuredVideo.getAttribute('src')!==item.dataset.src){
       featuredVideo.pause();
