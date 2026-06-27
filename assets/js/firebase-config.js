@@ -1,5 +1,5 @@
 window.FIREBASE_CONFIG = {
-  apiKey: "AIzaSyC2XKhSFVmR05WayRRixM6E5B7OPLPOBjo",
+  apiKey: "AIzaSyAukdI5K9MkCApkX4IJ2EtW06MyiyfiiPQ",
   authDomain: "enrui-website.firebaseapp.com",
   databaseURL: "https://enrui-website-default-rtdb.firebaseio.com",
   projectId: "enrui-website",
