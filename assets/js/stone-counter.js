@@ -33,6 +33,7 @@
     if (countElement) {
       countElement.textContent = safeValue.toLocaleString("en-US");
     }
+    window.dispatchEvent(new CustomEvent("stonecountchange", { detail: { count: safeValue } }));
     return safeValue;
   }
 

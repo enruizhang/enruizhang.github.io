@@ -436,11 +436,19 @@ const FRAMES=[
 ];
 const root=document.documentElement,world=document.querySelector('.world'),bird=document.getElementById('bird'),birdImg=document.getElementById('birdImg'),mouthStone=document.getElementById('mouthStone'),splash=document.getElementById('splash'),starfield=document.getElementById('starfield'),count=document.getElementById('count');
 const anchor={x:.0257,y:.8048};
+const MAX_PERSISTENT_STARS_DESKTOP=360;
+const MAX_PERSISTENT_STARS_MOBILE=160;
 let local=Number(localStorage.getItem('jingweiV16Stones')||0);
 count.textContent=local.toLocaleString('en-US');
+window.addEventListener('stonecountchange',event=>{
+  const value=Number(event.detail&&event.detail.count);
+  if(!Number.isFinite(value))return;
+  local=value;
+  makeStars();
+});
 if(window.initStoneCounter){
   window.initStoneCounter({element:count,storageKey:'jingweiV16Stones'}).then(value=>{
-    if(Number.isFinite(value)) local=value;
+    if(Number.isFinite(value)){local=value;makeStars();}
   }).catch(()=>{});
 }
 
@@ -453,20 +461,27 @@ let currentStoneIndex=0;
 
 function seededRand(seed){const x=Math.sin(seed*127.1+311.7)*43758.5453;return x-Math.floor(x)}
 function makeStars(){
-  starfield.innerHTML='';
-  for(let i=0;i<local;i++){
+  starfield.querySelectorAll('.persistent-star').forEach(star=>star.remove());
+  const maxStars=window.matchMedia('(max-width:720px)').matches?MAX_PERSISTENT_STARS_MOBILE:MAX_PERSISTENT_STARS_DESKTOP;
+  const total=Math.max(0,Math.floor(Number(local)||0));
+  const displayStarCount=Math.min(total,maxStars);
+  const firstStarIndex=Math.max(0,total-displayStarCount);
+  const fragment=document.createDocumentFragment();
+  for(let i=0;i<displayStarCount;i++){
+    const starIndex=firstStarIndex+i;
     const s=document.createElement('span');
-    s.className='star';
-    const size=(seededRand(i+1)*1.15+1.05).toFixed(2);
+    s.className='star persistent-star';
+    const size=(seededRand(starIndex+1)*1.15+1.05).toFixed(2);
     s.style.width=size+'px';s.style.height=size+'px';
-    s.style.left=(4+seededRand(i+20)*92).toFixed(2)+'%';
-    s.style.top=(18+seededRand(i+40)*54).toFixed(2)+'%';
-    s.style.setProperty('--starOpacity',(0.68+seededRand(i+60)*.24).toFixed(2));
-    s.style.setProperty('--dx',(seededRand(i+80)*4-2).toFixed(1)+'px');
-    s.style.setProperty('--dy',(4+seededRand(i+100)*7).toFixed(1)+'px');
-    s.style.setProperty('--dur',(28+seededRand(i+120)*26).toFixed(1)+'s');
-    starfield.appendChild(s);
+    s.style.left=(4+seededRand(starIndex+20)*92).toFixed(2)+'%';
+    s.style.top=(18+seededRand(starIndex+40)*54).toFixed(2)+'%';
+    s.style.setProperty('--starOpacity',(0.68+seededRand(starIndex+60)*.24).toFixed(2));
+    s.style.setProperty('--dx',(seededRand(starIndex+80)*4-2).toFixed(1)+'px');
+    s.style.setProperty('--dy',(4+seededRand(starIndex+100)*7).toFixed(1)+'px');
+    s.style.setProperty('--dur',(28+seededRand(starIndex+120)*26).toFixed(1)+'s');
+    fragment.appendChild(s);
   }
+  starfield.appendChild(fragment);
 }
 function addStarAt(xPct, topPx=null, newborn=true){
   const s=document.createElement('span');
@@ -480,6 +495,7 @@ function addStarAt(xPct, topPx=null, newborn=true){
   s.style.setProperty('--dy',(4+Math.random()*7).toFixed(1)+'px');
   s.style.setProperty('--dur',(28+Math.random()*26).toFixed(1)+'s');
   starfield.appendChild(s);
+  if(newborn)setTimeout(()=>s.remove(),2600);
 }
 function addStarAtViewportPoint(x,y,newborn=true){
   const fieldRect=starfield.getBoundingClientRect();
@@ -504,6 +520,7 @@ function addWorldStarAt(xPct,worldYvh,newborn=true){
   s.style.setProperty('--dy',(4+Math.random()*7).toFixed(1)+'px');
   s.style.setProperty('--dur',(28+Math.random()*26).toFixed(1)+'s');
   world.appendChild(s);
+  if(newborn)setTimeout(()=>s.remove(),2600);
 }
 
 function easeInOutCubic(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2}
